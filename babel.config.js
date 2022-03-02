@@ -4,6 +4,9 @@ module.exports = {
     [
       'module-resolver', {
         root: ['./src'],
+        alias: {
+          '~modules': './src/modules',
+        },
         extensions: [
           '.android.js',
           '.android.ts',
