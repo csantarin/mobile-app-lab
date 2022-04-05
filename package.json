@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "./scripts/postinstall.sh",
+    "reinstall": "rm -rf node_modules ./ios/Pods && yarn",
     "run:android": "react-native run-android",
     "run:ios": "react-native run-ios",
     "start": "react-native start",
