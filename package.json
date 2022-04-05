@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "./scripts/postinstall.sh",
+    "reinstall": "rm -rf node_modules ./ios/Pods && yarn",
     "run:android": "react-native run-android",
     "run:ios": "react-native run-ios",
     "start": "react-native start",
@@ -12,8 +13,16 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-native-community/masked-view": "0.1.10",
     "react": "17.0.2",
-    "react-native": "0.66.4"
+    "react-native": "0.66.4",
+    "react-native-gesture-handler": "1.10.3",
+    "react-native-reanimated": "1.13.0",
+    "react-native-safe-area-context": "3.1.9",
+    "react-native-screens": "2.10.1",
+    "react-native-webview": "11.0.0",
+    "react-navigation": "4.4.3",
+    "react-navigation-stack": "2.10.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
