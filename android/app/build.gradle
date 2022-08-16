@@ -207,11 +207,10 @@ android {
     productFlavors {
         full {
             dimension "mal"
-            applicationId "com.mobileapplab"
         }
         beta {
             dimension "mal"
-            applicationId "com.mobileapplab.beta"
+            applicationIdSuffix ".beta"
         }
     }
 }
