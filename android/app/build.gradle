@@ -171,8 +171,14 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
             signingConfig signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
+            shrinkResources false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            if (nativeArchitectures) {
+                ndk {
+                    abiFilters nativeArchitectures.split(',')
+                }
+            }
         }
     }
 
@@ -219,6 +225,14 @@ dependencies {
         releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {
         implementation jscFlavor
+    }
+
+    // SOLoader v0.10.1 unexpectedly crashing newer Android models (Pixel 6, Pixel 6 Pro, etc)
+    // TODO: remove this strict implementation when upgrading RN to 0.68.0
+    implementation('com.facebook.soloader:soloader:0.10.3') {
+        version {
+            strictly '0.10.3'
+        }
     }
 }
 
