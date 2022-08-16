@@ -197,6 +197,23 @@ android {
 
         }
     }
+
+    // We need this since Android Gradle Plugin 3 to be able to use productFlavors.
+    // https://developer.android.com/reference/tools/gradle-api/7.1/com/android/build/api/dsl/ProductFlavor#dimension
+    // The dimension key-value in productFlavors is unnecessary for apps with 1 flavorDimension only
+    // but for posterity's sake, we'll declare it, anyway.
+    flavorDimensions "mal"
+
+    productFlavors {
+        full {
+            dimension "mal"
+            applicationId "com.mobileapplab"
+        }
+        beta {
+            dimension "mal"
+            applicationId "com.mobileapplab.beta"
+        }
+    }
 }
 
 dependencies {
