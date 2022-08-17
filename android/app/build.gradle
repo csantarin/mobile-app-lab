@@ -127,6 +127,10 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitectures")
 
 android {
+    aaptOptions {
+        additionalParameters =["--warn-manifest-validation"]
+    }
+
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -166,9 +170,16 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
+            // Sign app with the debug key to enable profiling.
             signingConfig signingConfigs.debug
-            minifyEnabled enableProguardInReleaseBuilds
+            shrinkResources false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            if (nativeArchitectures) {
+                ndk {
+                    abiFilters nativeArchitectures.split(',')
+                }
+            }
         }
     }
 
@@ -185,6 +196,22 @@ android {
                         defaultConfig.versionCode * 1000 + versionCodes.get(abi)
             }
 
+        }
+    }
+
+    // We need this since Android Gradle Plugin 3 to be able to use productFlavors.
+    // https://developer.android.com/reference/tools/gradle-api/7.1/com/android/build/api/dsl/ProductFlavor#dimension
+    // The dimension key-value in productFlavors is unnecessary for apps with 1 flavorDimension only
+    // but for posterity's sake, we'll declare it, anyway.
+    flavorDimensions "mal"
+
+    productFlavors {
+        full {
+            dimension "mal"
+        }
+        beta {
+            dimension "mal"
+            applicationIdSuffix ".beta"
         }
     }
 }
@@ -215,6 +242,14 @@ dependencies {
         releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {
         implementation jscFlavor
+    }
+
+    // SOLoader v0.10.1 unexpectedly crashing newer Android models (Pixel 6, Pixel 6 Pro, etc)
+    // TODO: remove this strict implementation when upgrading RN to 0.68.0
+    implementation('com.facebook.soloader:soloader:0.10.3') {
+        version {
+            strictly '0.10.3'
+        }
     }
 }
 
