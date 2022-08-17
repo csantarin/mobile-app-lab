@@ -170,6 +170,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
+            // Sign app with the debug key to enable profiling.
             signingConfig signingConfigs.debug
             shrinkResources false
             minifyEnabled false
