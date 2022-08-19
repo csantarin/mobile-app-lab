@@ -34,5 +34,6 @@ allprojects {
 
         google()
         maven { url 'https://www.jitpack.io' }
+        flatDir { dirs "$rootDir/.ingo_5.0.7" }
     }
 }
